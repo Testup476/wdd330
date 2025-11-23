@@ -1,27 +1,39 @@
-import { renderListWithTemplate } from "./utils.mjs";
+// import { renderListWithTemplate } from "./utils.mjs";
 
-function productCardTemplate(product) {
-    return `<li class="product-card">
-        <a href="product_pages/?product=${product.Id}">
-            <img src="${product.Image}" alt="Image of ${product.Name}">
-            <h2 class="card__name">${product.Brand.Name}</h2>
-            <h3 class="card__brand">${product.Name}</h3>
-            <p class="product-card__price">$${product.FinalPrice}</p>
-        </a>
-    </li>`
-}
+// function productCardTemplate(product) {
+//     return `<li class="product-card">
+//         <a href="product_pages/?product=${product.Id}">
+//             <img src="${product.Image}" alt="Image of ${product.Name}">
+//             <h2 class="card__name">${product.Brand.Name}</h2>
+//             <h3 class="card__brand">${product.Name}</h3>
+//             <p class="product-card__price">$${product.FinalPrice}</p>
+//         </a>
+//     </li>`
+// }
+// export default class ProducList {
+//     constructor(category, dataSource, listElement) {
+//         this.category = category;
+//         this.dataSource = dataSource;
+//         this.listElement = listElement;
+//     }
+//     async init() {
+//         const list = await this.dataSource.getData();
+//         this.renderList(list);
+//     }
+//     renderList(list) {
+//         renderListWithTemplate(productCardTemplate, this.listElement, list);
+//     }
+// }
 
-export default class ProducList {
-    constructor(category, dataSource, listElement) {
-        this.category = category;
-        this.dataSource = dataSource;
-        this.listElement = listElement;
-    }
-    async init() {
-        const list = await this.dataSource.getData();
-        this.renderList(list);
-    }
-    renderList(list) {
-        renderListWithTemplate(productCardTemplate, this.listElement, list);
-    }
-}
+import { loadHeaderFooter, getParam } from "./utils.mjs";
+import ExternalServices from "./ExternalServices.mjs";
+import ProductList from "./ProductList.mjs";
+
+loadHeaderFooter();
+
+const category = getParam("category");
+const dataSource = new ExternalServices();
+const element = document.querySelector(".product-list");
+const listing = new ProductList(category, dataSource, element);
+
+listing.init();
